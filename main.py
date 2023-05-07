@@ -5,7 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy import logger
 
-import create_wallet_page
+from pages import create_wallet_page
 
 
 class BTCWalletApp(App):
