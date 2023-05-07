@@ -2,7 +2,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 
-import generate_private_key_page
+from pages import generate_private_key_page
 
 
 class CreateWalletPage(BoxLayout):
