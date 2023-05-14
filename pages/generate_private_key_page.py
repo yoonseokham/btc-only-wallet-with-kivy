@@ -2,8 +2,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.scrollview import ScrollView
-import random
 
+from pages import wallet_interface
+from pages import wallet_main_page
 
 
 class GeneratePrivateKeyPage(BoxLayout):
@@ -31,33 +32,35 @@ class GeneratePrivateKeyPage(BoxLayout):
         words_box.add_widget(self.private_key_label)
 
         # Create a button to generate a new private key
-        generate_button = Button(text='Generate')
+        generate_button = Button(text='Regenerate')
         generate_button.bind(on_press=self.generate_private_key)
         self.add_widget(generate_button)
 
         # Generate an initial private key
-        self.generate_private_key()
+        self.start_wallet_button = Button(text='Start Wallet', disabled=True)
+        self.start_wallet_button.bind(on_press=self.go_to_wallet_main_page)
+        self.add_widget(self.start_wallet_button)
 
     def generate_private_key(self, *args):
-        # Generate a private key based on the selected number of words
-        word_list = [
-            'apple', 'banana', 'cherry', 'date', 'eggplant', 'fig', 'grape',
-            'honey', 'ice cream', 'juice', 'kiwi', 'lemon', 'mango',
-            'nectarine', 'orange', 'peach', 'quince', 'raspberry',
-            'strawberry', 'tangerine', 'umbrella', 'violet', 'watermelon',
-            'xylophone', 'yellow', 'zebra'
-        ]
-        words = random.sample(word_list, self.num_words)
-        private_key = ' '.join(words)
-
+        new_wallet = wallet_interface.WalletInterface(length=self.num_words)
+        private_key_list = list(new_wallet.mnemonic.split())
+        self.start_wallet_button.disabled = False
         # Display the private key
-        self.private_key_label.text = 'Private Key:'
-        words_box = self.children[1].children[0]
+        self.private_key_label.text = 'press button to generate private key:'
+        words_box = None
+        for i in self.children:
+            if type(i) == ScrollView:
+                words_box = i.children[0]
         words_box.clear_widgets()
-        for index, word in enumerate(words):
+        for index, word in enumerate(private_key_list):
             word_layout = BoxLayout(orientation='vertical',
                                     spacing=2,
                                     size_hint_y=None)
             word_layout.add_widget(
                 Label(text=f'{index+1}. {word}', font_size='20sp'))
             words_box.add_widget(word_layout)
+
+    def go_to_wallet_main_page(self, *args):
+        # Switch to the wallet main page
+        self.parent.add_widget(wallet_main_page.WalletMainPage())
+        self.parent.remove_widget(self)

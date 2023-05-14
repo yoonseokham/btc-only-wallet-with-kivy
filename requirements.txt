@@ -1,3 +1,4 @@
 Cython==0.29.24
 Kivy==2.0.0
 pygame==2.4.0
+bitcoinlib
