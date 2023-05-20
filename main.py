@@ -6,6 +6,8 @@ from kivy.uix.label import Label
 from kivy import logger
 
 from pages import create_wallet_page
+from kivy.config import Config
+Config.set('kivy', 'keyboard_mode', 'system')
 
 
 class BTCWalletApp(App):

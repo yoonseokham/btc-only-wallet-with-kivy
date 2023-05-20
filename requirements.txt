@@ -4,3 +4,6 @@ pygame==2.4.0
 bitcoinlib==0.6.9
 qrcode==7.3.1
 kivy-garden.qrcode
+secp256k1
+embit
+
