@@ -5,6 +5,8 @@ from kivy.uix.popup import Popup
 from kivy.uix.scrollview import ScrollView
 from kivy_garden.qrcode import QRCodeWidget
 
+from pages import send_btc_popup
+
 
 class WalletMainPage(BoxLayout):
     def __init__(self, wallet, **kwargs):
@@ -67,8 +69,11 @@ class WalletMainPage(BoxLayout):
         popup.open()
 
     def send_btc(self, *args):
-        # Handle the logic for sending BTC
-        print("Send BTC button pressed!")
+        # Create an instance of the SendBtcPopup
+        send_btc = send_btc_popup.SendBtcPopup(self.wallet)
+
+        # Open the send BTC popup
+        send_btc.open()
 
     def show_xpub_popup(self, *args):
         # Create a pop-up with the xpub
