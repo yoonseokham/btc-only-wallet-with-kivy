@@ -2,9 +2,12 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 
+from bitcoinlib.wallets import wallet_create_or_open
+
 
 class WalletMainPage(BoxLayout):
-    def __init__(self, **kwargs):
+    def __init__(self, wallet, **kwargs):
+        self.wallet = wallet
         super().__init__(orientation='vertical', **kwargs)
 
         # Create a label for the page title
@@ -24,6 +27,7 @@ class WalletMainPage(BoxLayout):
     def receive_btc(self, *args):
         # Handle the logic for receiving BTC
         print("Receive BTC button pressed!")
+        print(self.wallet.get_address())
 
     def send_btc(self, *args):
         # Handle the logic for sending BTC

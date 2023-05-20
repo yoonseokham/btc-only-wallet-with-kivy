@@ -36,3 +36,6 @@ class WalletInterface:
             12: Mnemonic().generate(strength=128),
             24: Mnemonic().generate(strength=256)
         }[length]
+
+    def get_address(self):
+        return self.wallet.get_key().address

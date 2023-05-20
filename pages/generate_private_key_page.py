@@ -42,8 +42,9 @@ class GeneratePrivateKeyPage(BoxLayout):
         self.add_widget(self.start_wallet_button)
 
     def generate_private_key(self, *args):
-        new_wallet = wallet_interface.WalletInterface(length=self.num_words)
-        private_key_list = list(new_wallet.mnemonic.split())
+        self.new_wallet = wallet_interface.WalletInterface(
+            length=self.num_words)
+        private_key_list = list(self.new_wallet.mnemonic.split())
         self.start_wallet_button.disabled = False
         # Display the private key
         self.private_key_label.text = 'press button to generate private key:'
@@ -62,5 +63,6 @@ class GeneratePrivateKeyPage(BoxLayout):
 
     def go_to_wallet_main_page(self, *args):
         # Switch to the wallet main page
-        self.parent.add_widget(wallet_main_page.WalletMainPage())
+        self.parent.add_widget(wallet_main_page.WalletMainPage(
+            self.new_wallet))
         self.parent.remove_widget(self)
