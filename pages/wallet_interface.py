@@ -39,3 +39,6 @@ class WalletInterface:
 
     def get_address(self):
         return self.wallet.get_key().address
+
+    def get_xpub(self):
+        return self.wallet.public_master().wif
