@@ -15,7 +15,7 @@ class WalletInterface:
             self.mnemonic = mnemonic
         else:
             self.mnemonic = self.generate_mnemonic(length)
-        # self.mnemonic = 'eight exile trip rescue feel daring walk word culture day basket better'
+        # these are test mnemonic no coins haha
         self.mnemonic = "alien visual jealous source coral memory embark certain radar capable clip edit"
         try:
             wallet_delete("btc_wallet")
