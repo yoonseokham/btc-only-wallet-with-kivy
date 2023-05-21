@@ -1,14 +1,11 @@
-from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
-from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.scrollview import ScrollView
-from kivy_garden.qrcode import QRCodeWidget
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
-from kivy.event import EventDispatcher
+from kivy_garden.qrcode import QRCodeWidget
 
-from pages import wallet_main_page
+from kivy.core.window import Window
 
 
 class SendBtcPopup(Popup):
@@ -38,7 +35,7 @@ class SendBtcPopup(Popup):
             height=40,
             focus=False,
         )
-
+        self.text_input.bind(focus=self.on_text_input_focus)
         grid_layout.add_widget(self.text_input)
 
         # Create a button to sign the data
@@ -66,8 +63,6 @@ class SendBtcPopup(Popup):
     def sign_data(self, *args):
         # Get the entered data
         data = self.text_input.text
-        if not data:
-            data = "cHNidP8BAHICAAAAAY3LB6teEH6qJHluFYG3AQe8n0HDUcUSEuw2WIJ1ECDUAAAAAAD/////AoDDyQEAAAAAF6kU882+nVMDKGj4rKzjDB6NjyJqSBCHaPMhCgAAAAAWABQUbW8/trQg4d3PKL8WLi2kUa1BqAAAAAAAAQEfAMLrCwAAAAAWABTR6Cr4flM2A0LMGjGiaZ+fhod37SIGAhHf737H1jCUjkJ1K5DqFkaY0keihxeWBQpm1kDtVZyxGLMX7IZUAACAAQAAgAAAAIAAAAAAAAAAAAAAIgIDPtTTi27VFw59jdmWDV8b1YciQzhYGO7m8zB9CvD0brcYsxfshlQAAIABAACAAAAAgAEAAAAAAAAAAA=="
 
         # Sign the data by adding 'hello' to it
         signed_data = self.wallet.sign_psbt(data)
@@ -75,5 +70,12 @@ class SendBtcPopup(Popup):
         # Update the QR code with the signed data
         self.qr_code.data = signed_data
 
-        # Refresh the QR code display
-        parent = self.qr_code.parent
+    def on_text_input_focus(self, instance, focused):
+        if focused:
+            Window.keyboard_mode = 'managed'
+        else:
+            Window.keyboard_mode = 'system'
+
+    def on_keyboard_key_down(self, keyboard, keycode, text, modifiers):
+        if keycode[1] == 'enter':
+            self.sign_data()
